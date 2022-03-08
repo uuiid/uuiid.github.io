@@ -1,8 +1,7 @@
 # 寻找maya的cmake 文件
 
 ``` cmake
-# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
-# file Copyright.txt or https://cmake.org/licensing for details.
+# Distributed under the GNU 3.0 License.  See accompanying
 
 #[=======================================================================[.rst:
 FindMaya
@@ -15,7 +14,7 @@ Imported Targets
 
 This module provides the following imported targets, if found:
 
-``Maya::Maya``
+``maya::maya_${Maya_VERSION}_all``
   The Maya library
 
 Result Variables
@@ -23,10 +22,7 @@ Result Variables
 
 This will define the following variables:
 
-``Maya_FOUND``
-  True if the system has the Maya library.
-``Maya_VERSION``
-  The version of the Maya library which was found.
+
 ``Maya_INCLUDE_DIRS``
   Include directories needed to use Maya.
 ``Maya_LIBRARIES``
@@ -37,19 +33,12 @@ Cache Variables
 
 The following cache variables may also be set:
 
-``Maya_INCLUDE_DIR``
+``MAYA_INCLUDE_DIR_${Maya_FIND_VERSION}``
   The directory containing ``Maya.h``.
-``Maya_LIBRARY``
+`` maya_${Maya_FIND_VERSION}_all ``
   The path to the Maya library.
 
 #]=======================================================================]
-
-
-# 这个包设置${MAYA_INCLUDE_DIR}
-#         ${MAYA_LIBRARY_DIR}
-#         ${MAYA_LIBRARY}
-#         ${MAYA_QT5_LIBRARY}
-#这三个变量
 
 include(CMakePrintHelpers)
 
@@ -192,14 +181,10 @@ include(FindPackageHandleStandardArgs)
 
 
 find_package_handle_standard_args(Maya
-        FOUND_VAR
-        Maya_FOUND
-        REQUIRED_VARS
-        MAYA_INCLUDE_DIR_${Maya_FIND_VERSION}
-        MAYA_LIBRARY
-        REASON_FAILURE_MESSAGE
-        "maya没有找到"
+        REQUIRED_VARS MAYA_INCLUDE_DIR_${Maya_FIND_VERSION}
+        REASON_FAILURE_MESSAGE "maya 库中的组件没有找到"
         )
+
 target_compile_definitions(
         maya_${Maya_FIND_VERSION}_all
         INTERFACE
