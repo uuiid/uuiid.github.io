@@ -5,16 +5,7 @@
 在本书中,**一律使用camke 进行配置**, 在maya2019官方的帮助文档中有了一些配置camke的帮助文件, 
 但是由于要使用多个maya版本进行插件编译时,会出现需要切换多次cmake项目的问题, 所以,我们使用maya的版本号来区别 cmake 寻找到的 maya包
 
-``` cmake
-include(CMakePrintHelpers)
-
-if (WIN32)
-# 现在的使用默认的maya安装路径寻找， 由于工作是在 win 平台上的， 并没有兼容其他的平台
-    set(MAYA_DEFAULT_LOCATION "C:/Program Files/Autodesk/Maya${Maya_FIND_VERSION}")
-    set(MAYA_FBX_LOCATION "C:/Program Files/Autodesk/FBX/FBX SDK/${Maya_FIND_VERSION}.0.1")
-    set(OPEN_MAYA OpenMaya)
-endif ()
-```
+[FindMaya](maya/FindMaya.md)
 
 ## maya中的MObject
 

@@ -2,3 +2,4 @@
 * [有用的工具](tools/)
 * [c++](cpp/)
 * [maya](maya/)
+  * [FindMaya](maya/FindMaya.md)
