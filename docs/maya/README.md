@@ -8,7 +8,7 @@
 [FindMaya](maya/FindMaya.md)
 
 使用方法
-``` cmkae
+``` cmake
 foreach (MAYA_VERSION IN ITEMS 2018 2019 2020)
         find_package(Maya ${MAYA_VERSION} REQUIRED)
         add_library(test_${MAYA_VERSION})
