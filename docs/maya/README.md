@@ -7,6 +7,16 @@
 
 [FindMaya](maya/FindMaya.md)
 
+使用方法
+``` cmkae
+foreach (MAYA_VERSION IN ITEMS 2018 2019 2020)
+        find_package(Maya ${MAYA_VERSION} REQUIRED)
+        add_library(test_${MAYA_VERSION})
+        target_link_libraries(test_${MAYA_VERSION} PRIVATE maya::maya_${MAYA_VERSION}_all)
+endforeach ()
+
+```
+
 ## maya中的MObject
 
 在maya中， MObject 是一个基础的不能在基础的类的， 基本上所有的maya操作都要使用这个东西
