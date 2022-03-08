@@ -1,0 +1,6 @@
+{
+    "path-intellisense.mappings": {
+        "/": "${workspaceFolder}/docs"
+    },
+    "path-intellisense.absolutePathToWorkspace": false
+}
