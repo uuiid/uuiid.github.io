@@ -12,9 +12,10 @@
 - sysinternals 系统工具包, **一定要有** ` choco install sysinternals `
 - processhacker 好用无比的进程管理器 ` choco install processhacker `
 - powertoys windows 启动器 ` choco install powertoys `
-- cmake c++ 工程使用 ` choco install cmake ` 
+- cmake c++ 工程使用 ` choco install cmake `
 
 ## 一次性完成
+
 ``` PowerShell
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'));
 
