@@ -16,7 +16,13 @@
 其中， 需要的 ustruct 中的属性值， 必须使用 **UPROPERTY()** 进行标记
 在使用属性标记后，TArray 数组将对应 json 中数组， 每个 struct 将对应一个json obj 对象，
 
-``` c++
+```c++
+#define UENUM(...)
+#define GENERATED_BODY(...)
+#define UPROPERTY(...)
+#define USTRUCT(...)
+
+
 UENUM()
 enum class EEnumType : uint8 { None = 0, Abc, Fbx };
 
@@ -60,7 +66,7 @@ FString to_json(){
 
 序列化后
 
-``` json
+```json
 {
 	"groups": [
 		{
