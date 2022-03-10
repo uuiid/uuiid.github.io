@@ -16,7 +16,17 @@
 其中， 需要的 ustruct 中的属性值， 必须使用 **UPROPERTY()** 进行标记
 在使用属性标记后，TArray 数组将对应 json 中数组， 每个 struct 将对应一个json obj 对象，
 
+<details>
+<summary>c++ 示例 </summary>
+
 ```c++
+#define UENUM(...)
+#define GENERATED_BODY(...)
+#define UPROPERTY(...)
+#define USTRUCT(...)
+
+
+
 #define UENUM(...)
 #define GENERATED_BODY(...)
 #define UPROPERTY(...)
@@ -61,10 +71,12 @@ FString to_json(){
       l_group, l_str, CPF_None, CPF_None);
     return FString
 }
-
 ```
 
-序列化后
+</details>
+
+<details>
+<summary>序列化后</summary>
 
 ```json
 {
@@ -82,3 +94,29 @@ FString to_json(){
 	]
 }
 ```
+
+</details>
+
+
+## ue4 反射
+
+在ue4 中, 有一部分继承 uobject 的类是没有导出的, 在使用插件动态库时, 如果需要使用的话, 就需要使用
+ue4 中的反射模块,其中, 最主要的时 **UClass** 这个类, 在使用时, 我们需要找到所有的 uclass 实例, 
+使用模板迭代器 TObjectIterator<T> 进行迭代, 然后寻找所需要的类， 之后直接获取默认值
+
+<details>
+<summary>c++ 示例</summary>
+
+```c++
+  for (TObjectIterator<UClass> it{}; it; ++it) {
+    if (it->IsChildOf(UFactory::StaticClass())) {
+      if (it->GetName() == "LevelSequenceFactoryNew") {
+        it->GetDefaultObject<UFactory>();
+      }
+    }
+  }
+
+```
+
+</details>
+ 
