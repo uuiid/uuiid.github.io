@@ -1,6 +1,7 @@
 * [主页](README.md)
 * [有用的工具](tools/)
 * [c++](cpp/)
+  * [一些基本库使用](cpp/lib_.md)
 * [maya](maya/)
   * [FindMaya](maya/FindMaya.md)
 * [ue4](ue4/)
