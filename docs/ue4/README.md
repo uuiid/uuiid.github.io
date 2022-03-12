@@ -130,6 +130,15 @@ ue4 中的反射模块,其中, 最主要的时 **UClass** 这个类, 在使用�
 "%EngineDir%/Engine/Binaries/DotNET/UnrealBuildTool.exe"  -projectfiles -project="%GameDir%\MyGame.uproject" -game -engine -2019  //windows下生成vs2019项目工程  注：vs2019使用的c++14
 
 ```
-### ue4editor.exe命令行
 
- - skipcompile 跳过编译着色器
+### 编译材质
+ -run=DerivedDataCache
+
+
+```batch
+
+```
+
+### ue4editor-cmd.exe命令行
+
+ - skipcompile 跳过编译
