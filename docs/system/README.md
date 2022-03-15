@@ -9,7 +9,7 @@
 
 ## app utf-8
 
-在windows中想要使用utf-8作为编译程序的启动环境，需要使用程序清单文件  
+**在windows中想要使用utf**-8作为编译程序的启动环境，需要使用程序清单文件  
 <details>
 <summary>最简单的程序清单</summary>
 
