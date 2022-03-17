@@ -1,5 +1,15 @@
 # ue4记录
 
+## ue4 GENERATED_UCLASS_BODY() 和 GENERATED_BODY()
+
+GENERATED_UCLASS_BODY() 展开时会声明一个构造函数, 
+GENERATED_BODY() 需要自己声明构造函数
+
+## ue4 自定义资产拖拽到世界关卡
+
+需要创建一个 UActorFactory 的工厂子类, 如果需要
+
+
 ## ue4 读写文件 
 使用  FFileHelper::SaveStringToFile 写入文件
 使用  FFileHelper::LoadFileToString 写入文件
@@ -124,12 +134,30 @@ ue4 中的反射模块,其中, 最主要的时 **UClass** 这个类, 在使用�
 
 ### 编译工程
 
-```batch
-"%EngineDir%/Engine/Binaries/DotNET/UnrealBuildTool.exe"  -projectfiles -project="%GameDir%\MyGame.uproject" -game -engine -VSCode   //windows下生成vscode项目工程
+最好使用 `Developer Command Prompt for VS 2019` 打开vscode, 这样智能感知工作会好用很多
 
-"%EngineDir%/Engine/Binaries/DotNET/UnrealBuildTool.exe"  -projectfiles -project="%GameDir%\MyGame.uproject" -game -engine -2019  //windows下生成vs2019项目工程  注：vs2019使用的c++14
+使用 GenerateProjectFiles.bat 生成项目文件 `GenerateProjectFiles.bat -projectfiles -project="path to project" -game -engine -vscode`, 
+也可以修改 Engine\Saved\UnrealBuildTool\BuildConfiguration.xml 文件中的选项进行更改, 将 `-vscode` 替换为 `-2019`即可生成 **Microsoft Visual Studio 2019** 项目,
+<details>
+<summary>文件内容</summary>
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
+    <ProjectFileGenerator>
+        <Format>VisualStudioCode</Format>
+    </ProjectFileGenerator>
+</Configuration>
 
 ```
+
+</details>
+ 
+ 但是对于 生成的vscode 项目在工作中, 经常会出现一些瑕疵, 可以将 json 中的 ` C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\ ` 更改为空, 然后使用 `Developer Command Prompt for VS 2019` 打开vscode 这样可以正常使用, 而且 智能感知也可以正常工作
+
+
+当然也可以直接传入到 UnrealBuildTool.exe 中, 其实 GenerateProjectFiles.bat 也是调用的 UnrealBuildTool.exe  只是在前期会做一大串的检查工作, 当第一次使用git clone ue4 项目时,
+就没有办法直接使用 UnrealBuildTool.exe 了, 因为没有生成 UnrealBuildTool.exe 只能使用 `GenerateProjectFiles.bat`
 
 ### 编译材质
  -run=DerivedDataCache
