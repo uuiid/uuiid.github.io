@@ -40,4 +40,4 @@ index 6dd4aaf..e734e97 100644
 
 ### sqlpp11 库
 
-sqlpp库在vcpkg中已经过时了太多了, 需要重新更改 [sqlpp更改内容](./sqlpp_lib.md)
+sqlpp库在vcpkg中已经过时了太多了, 需要重新更改 [sqlpp更改内容](/cpp/sqlpp_lib.md)
