@@ -5,6 +5,28 @@
 使用的是xml语言, 当然也可以用在dll中,
 [msvc文档](https://docs.microsoft.com/zh-cn/windows/win32/sbscs/manifest-files-reference?redirectedfrom=MSDN)
 
+ - 清单文件的使用  
+在使用cmake时, 可以创建一个资源文件(.rc)然后在资源文件中定义清单文件
+ - 图标的添加
+在cmake可以添加图标, 同样也在资源文件中, 
+ - 第一位是id, 不可重复, 独一无二, 如果需要默认就指定**1**
+ - 第二位是资源的类型, 这个需要在[微软的官方文档](https://docs.microsoft.com/en-us/windows/win32/menurc/about-resource-files)中去找
+ - 第三位是文件的位置, 相对于当前文件的路径
+
+<details>
+<summary>资源文件</summary>
+
+```cppc
+#define ID_DOODLE_ICON 1
+ID_DOODLE_ICON ICON DISCARDABLE "icon.ico" /// 添加图标
+
+#define MANIFEST_RESOURCE_ID 1
+MANIFEST_RESOURCE_ID RT_MANIFEST "YourApp.manifest" /// 定义清单文件资源
+
+```
+
+</details>
+
 
 
 ## app utf-8
