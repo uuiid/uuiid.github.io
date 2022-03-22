@@ -4,6 +4,7 @@
   * [一些基本库使用](cpp/lib_.md)
   * [基本库](cpp/lib_.md)
   * [sqlpp](cpp/sqlpp.md)
+  * [技巧](cpp/skill_.md)
 * [maya](maya/)
   * [FindMaya](maya/FindMaya.md)
 * [ue4](ue4/)
