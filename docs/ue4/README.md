@@ -10,6 +10,15 @@ GENERATED_BODY() 需要自己声明构造函数
 需要创建一个 UActorFactory 的工厂子类, 如果需要
 
 
+## ue4 路径表示
+- 参考/文本路径 `StaticMesh'/Game/MyFolder/MyAsset.MyAsset'`
+- 全名 `StaticMesh /Game/MyFolder/MyAsset.MyAsset`
+- 路径名(也可已是对象名称) `/Game/MyFolder/MyAsset.MyAsset`
+- 包名称 `/Game/MyFolder/MyAsset`
+- 路径名称 `/Game/MyNewFolder/` 或者 `/Game/MyNewFolder`
+- 蓝图类名称 (据我观察并没有找到代码) `/Game/MyFolder/myclass.myclass_C`
+- 基本上**路径名称**和**对象名称**相同
+
 ## ue4 读写文件 
 使用  FFileHelper::SaveStringToFile 写入文件
 使用  FFileHelper::LoadFileToString 写入文件
