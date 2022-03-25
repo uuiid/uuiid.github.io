@@ -16,7 +16,8 @@ GENERATED_BODY() 需要自己声明构造函数
 - 路径名(也可已是对象名称) `/Game/MyFolder/MyAsset.MyAsset`
 - 包名称 `/Game/MyFolder/MyAsset`
 - 路径名称 `/Game/MyNewFolder/` 或者 `/Game/MyNewFolder`
-- 蓝图类名称 (据我观察并没有找到代码) `/Game/MyFolder/myclass.myclass_C`
+- 蓝图类路径名 (据我观察并没有找到代码) `/Game/MyFolder/myclass.myclass_C`
+- 蓝图名称 **myclass_C** (myclass 是包名称)
 - 基本上**路径名称**和**对象名称**相同
 
 ## ue4 读写文件 
