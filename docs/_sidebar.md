@@ -5,6 +5,7 @@
   * [基本库](cpp/lib_.md)
   * [sqlpp](cpp/sqlpp.md)
   * [技巧](cpp/skill_.md)
+  * [c++17 自动注册的小技巧](cpp/ref_cpp.md)
 * [maya](maya/)
   * [FindMaya](maya/FindMaya.md)
 * [ue4](ue4/)
