@@ -43,7 +43,7 @@ struct registrar_lambda {
 };
 
 ```
-- 最后也就是使用方法了
+- 最后也就是使用方法了  
 ```cpp
 namespace {
 constexpr auto init_node = []() {

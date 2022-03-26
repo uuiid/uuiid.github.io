@@ -3,7 +3,7 @@
 * [c++](cpp/)
   * [一些基本库使用](cpp/lib_.md)
   * [基本库](cpp/lib_.md)
-  * [sqlpp](cpp/sqlpp.md)
+  * [sqlpp](cpp/sqlpp_lib.md)
   * [技巧](cpp/skill_.md)
   * [c++17 自动注册的小技巧](cpp/ref_cpp.md)
 * [maya](maya/)
