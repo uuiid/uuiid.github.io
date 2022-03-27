@@ -4,6 +4,7 @@
 * [有用的工具](tools/)
 * [c++](cpp/)
   * [一些基本库使用](cpp/lib_.md)
+  * [boost库](cpp/boost_lib.md)
   * [基本库](cpp/lib_.md)
   * [sqlpp](cpp/sqlpp_lib.md)
   * [技巧](cpp/skill_.md)
