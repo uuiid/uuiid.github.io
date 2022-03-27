@@ -54,7 +54,6 @@ constexpr auto init_node = []() {
 class init_init_node_
     : public registrar_lambda<init_node, 2> {};
 };
-
 int main(int argc, char *argv[]){
     /// 这里是演示, 就不使用优先级进行分类运行了
     for(auto&& i: registered_functions()){
