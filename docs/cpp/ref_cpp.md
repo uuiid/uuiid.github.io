@@ -41,7 +41,7 @@ struct registrar_lambda {
   inline static registrar_lambda& registered = getInstance();/// 内联静态变量, 普通静态变量没有尝试过, 不知道好不好用
   registrar_lambda() { (void)registered; /*特殊点, 防止编辑器优化使用, 不可消除*/ }
 };
-
+  
 ```
 - 最后也就是使用方法了  
 ```cpp
