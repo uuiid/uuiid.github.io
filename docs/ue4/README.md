@@ -9,6 +9,12 @@ GENERATED_BODY() 需要自己声明构造函数
 
 需要创建一个 UActorFactory 的工厂子类, 如果需要
 
+## 获取一个临时包
+使用 GetTransientPackage() 获取一个临时包, 可用将不需要保存的对象放入其中
+
+## 自动化导入
+USequencerToolsFunctionLibrary(SequencerTools.h) 这个类是大多数时候的使用, 如果还要细粒度的控制, 可以使用 MovieSceneToolHelpers 这个类
+
 
 ## ue4 路径表示
 - 参考/文本路径 `StaticMesh'/Game/MyFolder/MyAsset.MyAsset'`
