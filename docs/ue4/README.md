@@ -13,8 +13,19 @@ GENERATED_BODY() 需要自己声明构造函数
 使用 GetTransientPackage() 获取一个临时包, 可用将不需要保存的对象放入其中
 
 ## 自动化导入
-USequencerToolsFunctionLibrary(SequencerTools.h) 这个类是大多数时候的使用, 如果还要细粒度的控制, 可以使用 MovieSceneToolHelpers 这个类
+`USequencerToolsFunctionLibrary`(SequencerTools.h) 这个类是大多数时候的使用, 如果还要细粒度的控制, 可以使用 `MovieSceneToolHelpers` 这个类
 
+## 启动外部进程
+`FPlatformProcess`处理于平台相关的启动外部进程的类
+
+## 插件开发时需要配置界面
+继承 `UDeveloperSettings` 类
+
+## 引擎加载阶段添加委托
+`FCoreDelegates::OnFEngineLoopInitComplete`
+
+## 长时间的任务
+`FScopedSlowTask` 
 
 ## ue4 路径表示
 - 参考/文本路径 `StaticMesh'/Game/MyFolder/MyAsset.MyAsset'`
