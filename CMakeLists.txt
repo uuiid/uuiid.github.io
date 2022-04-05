@@ -15,7 +15,7 @@ project(uuiid
 # 添加一些全局必要的宏
 add_compile_definitions(QT_NO_KEYWORDS UNICODE _UNICODE NOMINMAX)
 # 全局警告
-add_compile_options(/W4)
+#add_compile_options(/W4)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
