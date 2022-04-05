@@ -1,5 +1,6 @@
 # boost iostreams
 
+[示例连接](/source/boost/iostream/main.cpp ':ignore')
 ## 基本的理解
 
 - 可用快速的创建符合c++流标准的后端, 毕竟c++标准的流后端创建起来真的复杂和麻烦
