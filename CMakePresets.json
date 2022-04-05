@@ -13,7 +13,7 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "installDir": "${sourceDir}/install",
-      "toolchainFile": "$env{VCPKG_ROOT}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "toolchainFile": "$env{VCPKG_ROOT}vcpkg/scripts/buildsystems/vcpkg.cmake",
       "architecture": {
         "value": "x64",
         "strategy": "external"
@@ -55,6 +55,13 @@
       "configurePreset": "Ninja_debug",
       "jobs": 10,
       "hidden": true
+    },
+    {
+      "name": "debug_boost",
+      "inherits": "debug",
+      "targets": ["uuid_boost_iostream_test"],
+      "description": "boost 例子",
+      "displayName": "boost 例子"
     }
   ],
   "testPresets": [
