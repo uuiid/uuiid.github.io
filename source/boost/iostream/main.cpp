@@ -12,15 +12,20 @@
 #include <fmt/format.h>
 
 int main(int argc, char *argv[]) {
-    std::stringstream istringstream_source{"sanduiosahfpdsjfsdnfbgvfzx0-i["
-                                           "ksz["
-                                           "fjpisf"};
-    std::stringstream istringstream_target{};
+
+    std::stringstream stringstream_source{};
+    std::stringstream stringstream_target{};
+    if (argc > 1) {
+        stringstream_source << argv[1];
+    } else {
+        stringstream_source << "std::stringstream stringstream_source{}";
+    }
     boost::iostreams::filtering_streambuf<boost::iostreams::input> filteringStreambuf{};
     filteringStreambuf.push(boost::iostreams::zlib_compressor{});
-    filteringStreambuf.push(istringstream_source);
-    boost::iostreams::copy(filteringStreambuf, istringstream_target);
+    filteringStreambuf.push(stringstream_source);
+    boost::iostreams::copy(filteringStreambuf, stringstream_target);
 
-    std::cout << fmt::format("str |{}| -> |{:#x}|", istringstream_source.str(), fmt::join(istringstream_target.str()," "));
+    std::cout << fmt::format("str |{}| -> |{:#x}|", stringstream_source.str(),
+                             fmt::join(stringstream_target.str(), " "));
 
 }
