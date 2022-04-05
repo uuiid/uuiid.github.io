@@ -1,0 +1,79 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "Ninja_build",
+      "displayName": "Ninja build",
+      "description": "Ninja build using vcpkg",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "installDir": "${sourceDir}/install",
+      "toolchainFile": "$env{VCPKG_ROOT}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ],
+          "disableExternalAnalysis": true
+        }
+      },
+      "cmakeExecutable": "C:/Program Files/CMake/bin/cmake.exe",
+      "hidden": true
+    },
+    {
+      "name": "vs2022",
+      "inherits": "Ninja_build",
+      "generator": "Visual Studio 17 2022"
+    },
+    {
+      "name": "Ninja_release",
+      "inherits": "Ninja_build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "Ninja_debug",
+      "inherits": "Ninja_build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "Ninja_debug",
+      "jobs": 10,
+      "hidden": true
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "develop",
+      "configurePreset": "Ninja_debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "name": "pinyi"
+        }
+      }
+    }
+  ],
+  "vendor": {}
+}

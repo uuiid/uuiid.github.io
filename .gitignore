@@ -31,4 +31,47 @@
 *.out
 *.app
 
-*/*.VC.DB*
+#Ignore thumbnails created by Windows
+Thumbs.db
+#Ignore files built by Visual Studio
+*.pdb
+*.user
+*.aps
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.vs/
+#Nuget packages folder
+#我们自己的构建文件
+packages/
+out/
+cmake-build-debug/
+/cmake-build-*
+/core/doodle_core.xmind
+/.idea/
+/.venv/
+/install*
+
+*.exp
+#忽略python文件
+*.pyc
+.vscode/**.VC.**
+build
+*.mll
+/imgui.ini
+*.sqlite
