@@ -7,4 +7,5 @@ add_executable(uuid_boost_asio_test
         )
 
 target_link_libraries(uuid_boost_asio_test PUBLIC fmt::fmt)
+target_include_directories(uuid_boost_asio_test PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 add_test(NAME uuid_boost_asio_test_com COMMAND uuid_boost_asio_test "test_args_${CMAKE_CURRENT_LIST_DIR}")
