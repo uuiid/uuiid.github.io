@@ -1,5 +1,5 @@
 add_executable(uuid_boost_asio_test
-        main.cpp
+        main_server.cpp
         server.h
         server.cpp
         ../../win_exe.rc

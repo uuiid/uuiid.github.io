@@ -23,7 +23,7 @@ void session::do_read()
 void session::do_write()
 {
     auto self{shared_from_this()};
-
+    data_ += "ok";
     boost::asio::async_write(
         socket_,
         boost::asio::buffer(data_),
@@ -31,7 +31,7 @@ void session::do_write()
         {
             if (!in_err)
             {
-                self->do_read();
+//                self->do_read();
             }
         });
 }
