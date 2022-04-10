@@ -26,7 +26,7 @@ class server
 
 public:
     explicit server(boost::asio::io_context &in_io_context,
-                    std::int16_t in_port)
+                    std::uint16_t in_port)
         : acceptor_(in_io_context, boost::asio::ip::tcp::endpoint{boost::asio::ip::tcp::v6(), in_port})
     {
         do_accept();

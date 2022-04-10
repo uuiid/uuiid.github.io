@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     try
     {
-        std::int16_t port{0};
+        std::uint16_t port{0};
         if (argc == 2)
         {
             port = std::atoi(argv[1]);
