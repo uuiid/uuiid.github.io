@@ -8,9 +8,16 @@ class session : public std::enable_shared_from_this<session>
 
 public:
     explicit session(boost::asio::ip::tcp::socket in_socket)
-        : socket_(std::move(in_socket)){
+        : socket_(std::move(in_socket)),
+          data_(){
 
           };
+    void start();
+
+private:
+    void do_read();
+    void do_write();
+    std::string data_{};
 };
 
 class server
