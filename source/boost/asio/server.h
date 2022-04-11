@@ -8,7 +8,7 @@ class session : public std::enable_shared_from_this<session> {
 public:
     explicit session(boost::asio::ip::tcp::socket in_socket)
             : socket_(std::move(in_socket)),
-              data_() {
+              data_(std::size_t(1024), '\0') {
 
     };
 
@@ -17,9 +17,10 @@ public:
 private:
     void do_read();
 
-    void do_write();
+    void do_write(std::size_t in_len);
 
     std::string data_{};
+    std::string msg_{};
 };
 
 class server {

@@ -6,38 +6,61 @@ void session::start() {
 }
 
 void session::do_read() {
-    auto self{shared_from_this()};
-    boost::asio::async_read(
-            socket_,
+//    boost::asio::async_read(
+//            socket_,boost::asio::buffer(data_),
+//            [self = shared_from_this(), this](boost::system::error_code in_err,
+//                                              std::size_t in_len) {
+//                if (!in_err) {
+//                    std::cout << "read " << data_.substr(0, in_len) << std::endl;
+//                    this->do_write(in_len);
+//                } else {
+//                    std::cout << "read err " << in_err.message() << std::endl;
+//                    socket_.close();
+//                }
+//            }
+//    );
+    socket_.async_read_some(
             boost::asio::buffer(data_),
-            [self, this](boost::system::error_code in_err,
-                         std::size_t in_len) {
+            [self = shared_from_this(), this](boost::system::error_code in_err,
+                                              std::size_t in_len) {
                 if (!in_err) {
-                    std::cout << "read " << std::endl;
-                    this->do_write();
+                    std::cout << "read " << data_.substr(0, in_len) << std::endl;
+                    this->do_write(in_len);
                 } else {
-                    std::cout << in_err.message() << std::endl;
-                    socket_.close();
-                }
-            }
-    );
-
-}
-
-void session::do_write() {
-    auto self{shared_from_this()};
-    boost::asio::async_write(
-            socket_,
-            boost::asio::buffer(data_),
-            [self, this](boost::system::error_code in_err, std::size_t in_len) {
-                if (!in_err) {
-                    std::cout << "write " << std::endl;
-                    this->do_read();
-                } else {
-                    std::cout << in_err.message() << std::endl;
+                    std::cout << "read err " << in_err.message() << std::endl;
                     socket_.close();
                 }
             });
+
+}
+
+void session::do_write(std::size_t in_len) {
+    msg_ = data_.substr(0, in_len);
+    boost::asio::async_write(
+            socket_,
+            boost::asio::buffer(msg_),
+            [self = shared_from_this(), this, in_len](boost::system::error_code in_err, std::size_t in_len_) {
+
+                if (!in_err) {
+                    std::cout << "write " << data_.substr(0, in_len) << std::endl;
+                    this->do_read();
+                } else {
+                    std::cout << "write err " << in_err.message() << std::endl;
+                }
+                socket_.close();
+            });
+//    socket_.async_write_some(
+//            boost::asio::buffer(msg_),
+//            [self = shared_from_this(), this, in_len](boost::system::error_code in_err, std::size_t in_len_) {
+//
+//                if (!in_err) {
+//                    std::cout << "write " << data_.substr(0, in_len) << std::endl;
+//                    this->do_read();
+//                } else {
+//                    std::cout << "write err " << in_err.message() << std::endl;
+//                }
+//                socket_.close();
+//            });
 }
 
 void server::do_accept() {

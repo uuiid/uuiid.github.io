@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
         boost::asio::connect(s, resolver.resolve(argv[1], argv[2]));
 
         std::cout << "Enter message: ";
-        char request[] = "test";
+        char request[] = "test 111111111111111111111";
         size_t request_length = std::strlen(request);
         boost::asio::write(s, boost::asio::buffer(request, request_length));
 
