@@ -18,7 +18,7 @@ index 6dd4aaf..e734e97 100644
  endif()
  
 -ocv_check_modules(FREETYPE freetype2)
--ocv_check_modules(HARFBUZZ harfbuzz)
+-ocv_check_modules(HARFBUZZ harfbuzz) 
 +if(WITH_FREETYPE)
 +find_package(freetype CONFIG REQUIRED)
 +find_package(harfbuzz CONFIG REQUIRED)
