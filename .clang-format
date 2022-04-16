@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+SortIncludes: Never
+ColumnLimit: 0
+AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
+AlignAfterOpenBracket: Align
