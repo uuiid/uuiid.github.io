@@ -18,6 +18,7 @@ int main(int argc, char *argv[]) {
                std::chrono::seconds{1} + std::chrono::milliseconds{58};
     auto l_str = fmt::format(argv[1], l_t);
     std::cout << l_str << std::endl;
+    return 0;
   }
   return 1;
 }
