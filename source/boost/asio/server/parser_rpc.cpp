@@ -4,7 +4,7 @@
 
 #include "parser_rpc.h"
 #include <server/rpc_server.h>
-std::string parser_rpc::operator()(const rpc_server& in_server) {
+std::string parser_rpc::operator()(const rpc_server_ref& in_server) {
   auto rpc_requrst_json = nlohmann::json::parse(json_data_);
   nlohmann::json result{};
   if (rpc_requrst_json.is_array()) {
@@ -25,7 +25,8 @@ std::string parser_rpc::operator()(const rpc_server& in_server) {
 }
 
 std::optional<rpc_reply>
-parser_rpc::call_one(const rpc_request& in_request, const rpc_server& in_server) {
+parser_rpc::call_one(const rpc_request& in_request,
+                     const rpc_server_ref& in_server) {
   auto l_r = in_server(in_request.method_, in_request.params_);
   if (in_request.is_notice) {
     return {};

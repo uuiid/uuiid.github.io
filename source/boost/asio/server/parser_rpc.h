@@ -44,16 +44,18 @@ class rpc_request {
   std::variant<std::int64_t, std::string, std::monostate> id_{0};
 };
 class rpc_server;
+class rpc_server_ref;
 class parser_rpc {
  private:
   std::string json_data_{};
 
-  static std::optional<rpc_reply> call_one(const rpc_request& in_request,
-                     const rpc_server& in_server);
+  static std::optional<rpc_reply> call_one(
+      const rpc_request& in_request,
+      const rpc_server_ref& in_server);
 
  public:
   explicit parser_rpc(std::string string)
       : json_data_(std::move(string)) {}
 
-  std::string operator()(const rpc_server& in_server);
+  std::string operator()(const rpc_server_ref& in_server);
 };
