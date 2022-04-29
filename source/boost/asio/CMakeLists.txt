@@ -3,7 +3,6 @@ add_executable(uuid_boost_asio_server_test
         ../../win_exe.rc
         ../../uuiid.manifest
         )
-add_subdirectory(server)
 
 target_link_libraries(uuid_boost_asio_server_test PUBLIC fmt::fmt nlohmann_json::nlohmann_json)
 target_include_directories(uuid_boost_asio_server_test PUBLIC ${CMAKE_CURRENT_LIST_DIR})
@@ -12,6 +11,9 @@ add_executable(uuid_boost_asio_client_test
         main_client.cpp
         ../../win_exe.rc
         ../../uuiid.manifest)
+
+add_subdirectory(server)
+add_subdirectory(client)
 
 target_link_libraries(uuid_boost_asio_client_test PUBLIC fmt::fmt)
 

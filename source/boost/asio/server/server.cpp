@@ -95,12 +95,11 @@ void session::do_write() {
         boost::asio::buffer(msg_),
         [self = shared_from_this(), this](boost::system::error_code in_err, std::size_t in_len_) {
           if (!in_err) {
-            std::cout << "write " << data_ << std::endl;
             this->do_read();
           } else {
             std::cout << "write err " << in_err.message() << std::endl;
+            socket_.close();
           }
-          socket_.close();
         });
   }
   //    socket_.async_write_some(
