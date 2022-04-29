@@ -16,6 +16,7 @@ add_subdirectory(server)
 add_subdirectory(client)
 
 target_link_libraries(uuid_boost_asio_client_test PUBLIC fmt::fmt)
+target_include_directories(uuid_boost_asio_client_test PUBLIC ${CMAKE_CURRENT_LIST_DIR})
 
 target_compile_definitions(uuid_boost_asio_server_test PUBLIC _WIN32_WINNT=0x0A00)
 target_compile_definitions(uuid_boost_asio_client_test PUBLIC _WIN32_WINNT=0x0A00)

@@ -43,6 +43,23 @@ class rpc_reply {
                    }},
                nlohmann_json_t.id_);
   }
+  friend void from_json(const nlohmann::json& nlohmann_json_j, rpc_reply& nlohmann_json_t) {
+    nlohmann_json_j.at("jsonrpc").get_to(nlohmann_json_t.jsonrpc_);
+    if (nlohmann_json_j.contains("result")) {
+      nlohmann_json_t.result = nlohmann_json_j.at("result");
+    } else if (nlohmann_json_j.contains("error")) {
+      nlohmann_json_t.result = nlohmann_json_j.at("error").get<rpc_error>();
+    } else {
+      throw std::runtime_error{"错误"};
+    }
+    auto&& l_j = nlohmann_json_j.at("id");
+    if (l_j.is_number())
+      nlohmann_json_t.id_ = l_j.get<std::uint64_t>();
+    else if (l_j.is_string())
+      nlohmann_json_t.id_ = l_j.get<std::string>();
+    else
+      throw internal_error_exception{};
+  }
 
  public:
   std::string jsonrpc_{};

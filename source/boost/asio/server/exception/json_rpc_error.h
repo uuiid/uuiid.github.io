@@ -37,9 +37,15 @@ class rpc_error {
     nlohmann_json_j["message"] = nlohmann_json_t.message;
     nlohmann_json_j["data"]    = nlohmann_json_t.data;
   }
+  friend void from_json(const nlohmann::json& nlohmann_json_j, rpc_error& nlohmann_json_t) {
+    nlohmann_json_j.at("code").get_to(nlohmann_json_t.code);
+    nlohmann_json_j.at("message").get_to(nlohmann_json_t.message);
+    nlohmann_json_j.at("data").get_to(nlohmann_json_t.data);
+  }
 
  public:
   constexpr rpc_error() = default;
+
   explicit rpc_error(std::int64_t in_code,
                      std::string in_message,
                      std::string in_data)
@@ -49,6 +55,9 @@ class rpc_error {
   std::int64_t code{};
   std::string message{};
   std::string data{};
+
+  void to_throw() {
+  }
 };
 inline const static rpc_error parse_error{-32700, "Parse error语法解析错误"s, "服务端接收到无效的json 该错误发送于服务器尝试解析json文本"s};
 inline const static rpc_error invalid_request{-32600, "Invalid Request无效请求"s, "发送的json不是一个有效的请求对象"s};

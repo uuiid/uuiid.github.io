@@ -37,7 +37,14 @@ parser_rpc::call_one(const rpc_request& in_request,
     } else {
       l_r.id_ = in_request.id_;
     }
-    nlohmann::json::accept(""s);
   }
   return l_r;
+}
+rpc_request::identifier& rpc_request::identifier::get() {
+  static identifier identifier1;
+  return identifier1;
+}
+std::uint64_t rpc_request::identifier::id() {
+  return ++id_;
+  ;
 }

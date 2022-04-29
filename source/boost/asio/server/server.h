@@ -6,6 +6,19 @@ class parser_rpc;
 class rpc_server;
 class rpc_server_ref;
 class session_manager;
+class server {
+  boost::asio::ip::tcp::acceptor acceptor_;
+  std::shared_ptr<rpc_server> rpc_server_ptr_;
+  std::shared_ptr<session_manager> session_manager_ptr;
+
+ public:
+  explicit server(boost::asio::io_context& in_io_context,
+                  std::uint16_t in_port);
+
+ private:
+  void do_accept();
+};
+
 class session : public std::enable_shared_from_this<session> {
   boost::asio::ip::tcp::socket socket_;
   std::shared_ptr<parser_rpc> parser_rpc_ptr;
@@ -25,16 +38,4 @@ class session : public std::enable_shared_from_this<session> {
 
   std::string data_{};
   std::string msg_{};
-};
-class server {
-  boost::asio::ip::tcp::acceptor acceptor_;
-  std::shared_ptr<rpc_server> rpc_server_ptr_;
-  std::shared_ptr<session_manager> session_manager_ptr;
-
- public:
-  explicit server(boost::asio::io_context& in_io_context,
-                  std::uint16_t in_port);
-
- private:
-  void do_accept();
 };

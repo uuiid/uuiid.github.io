@@ -13,10 +13,26 @@
 #include <server/rpc_reply.h>
 using namespace std::literals;
 class rpc_request {
+  class identifier {
+    identifier() = default;
+
+    std::atomic_uint64_t id_;
+
+   public:
+    ~identifier() = default;
+    static identifier& get();
+    std::uint64_t id();
+  };
+
  private:
-  //  NLOHMANN_DEFINE_TYPE_INTRUSIVE(rpc_request, jsonrpc_);
-  //  friend void to_json(nlohmann::json& nlohmann_json_j, const rpc_request& nlohmann_json_t) {
-  //  }
+  constexpr const static auto jsonrpc_version = "2.0";
+  friend void to_json(nlohmann::json& nlohmann_json_j, const rpc_request& nlohmann_json_t) {
+    nlohmann_json_j["jsonrpc"] = jsonrpc_version;
+    nlohmann_json_j["method"]  = nlohmann_json_t.method_;
+    nlohmann_json_j["id"]      = (std::uint64_t)identifier::get().id();
+    if (nlohmann_json_t.params_)
+      nlohmann_json_j["params"] = *nlohmann_json_t.params_;
+  }
   friend void from_json(const nlohmann::json& nlohmann_json_j, rpc_request& nlohmann_json_t) {
     nlohmann_json_j.at("jsonrpc").get_to(nlohmann_json_t.jsonrpc_);
     nlohmann_json_j.at("method").get_to(nlohmann_json_t.method_);
