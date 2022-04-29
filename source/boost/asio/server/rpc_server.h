@@ -6,10 +6,19 @@
 #include <map>
 #include <string>
 #include <functional>
+#include <optional>
 #include <server/exception/json_rpc_error.h>
+#include <server/rpc_reply.h>
 
-template <typename... Args>
 class rpc_server {
  public:
-  std::map<std::string, std::function<void()>> fun_list_;
+  using call_fun = std::function<rpc_reply(const std::optional<nlohmann::json>&)>;
+  std::map<std::string,
+           call_fun>
+      fun_list_{};
+  rpc_server() = default;
+  void register_fun(const std::string& in_name, const call_fun& in_call);
+
+  rpc_reply operator()(const std::string& in_name,
+                       const std::optional<nlohmann::json>& in_parm) const;
 };

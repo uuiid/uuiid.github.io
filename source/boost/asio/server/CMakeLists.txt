@@ -6,10 +6,12 @@ target_sources(
         parser_rpc.h
         exception/json_rpc_error.h
         rpc_server.h
+        rpc_reply.h
 
         PRIVATE
         server.cpp
         session_manager.cpp
         parser_rpc.cpp
         rpc_server.cpp
+        rpc_reply.cpp
 )
