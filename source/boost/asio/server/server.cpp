@@ -1,4 +1,4 @@
-#include <server.h>
+#include <server/server.h>
 #include <iostream>
 
 void session::start() {
@@ -61,6 +61,9 @@ void session::do_write(std::size_t in_len) {
 //                }
 //                socket_.close();
 //            });
+}
+void session::stop() {
+  socket_.close();
 }
 
 void server::do_accept() {
