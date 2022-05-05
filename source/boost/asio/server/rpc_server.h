@@ -33,7 +33,8 @@ class rpc_server {
       fun_list_{};
 
   template <typename... Ts>
-  constexpr static auto decay_types(const std::tuple<Ts...>&) -> std::tuple<std::remove_cv_t<std::remove_reference_t<Ts>>...>;
+  constexpr static auto decay_types(const std::tuple<Ts...>&)
+      -> std::tuple<std::remove_cv_t<std::remove_reference_t<Ts>>...>;
 
  public:
   rpc_server();
