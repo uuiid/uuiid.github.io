@@ -46,7 +46,8 @@ class rpc_reply {
   friend void from_json(const nlohmann::json& nlohmann_json_j, rpc_reply& nlohmann_json_t) {
     nlohmann_json_j.at("jsonrpc").get_to(nlohmann_json_t.jsonrpc_);
     if (nlohmann_json_j.contains("result")) {
-      nlohmann_json_t.result = nlohmann_json_j.at("result");
+      auto l_r = nlohmann_json_j.at("result").get<nlohmann::json>();
+      nlohmann_json_t.result = l_r;
     } else if (nlohmann_json_j.contains("error")) {
       nlohmann_json_t.result = nlohmann_json_j.at("error").get<rpc_error>();
     } else {

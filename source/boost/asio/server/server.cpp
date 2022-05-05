@@ -58,7 +58,7 @@ void session::do_read() {
               boost::asio::buffers_begin(data_.data()),
               boost::asio::buffers_begin(data_.data()) + in_len - end_string.size()});
           data_.consume(in_len);
-          msg_ = (*parser_rpc_ptr)(*rpc_server_);
+          msg_ = (*parser_rpc_ptr)(*rpc_server_) + end_string;
           this->do_write();
         } else {
           std::cout << "read err " << in_err.message() << std::endl;

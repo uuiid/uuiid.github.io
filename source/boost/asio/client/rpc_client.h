@@ -26,7 +26,7 @@ class rpc_client {
   ~rpc_client();
 
  protected:
-  std::string call_server(const std::string& in_string);
+  std::string call_server(const std::string& in_string, bool is_notice);
 
   template <bool is_notice_type, typename Result_Type,
             typename... Args>
@@ -40,8 +40,16 @@ class rpc_client {
     if constexpr (sizeof...(args) > 0) {
       l_rpc_request.params_ = std::make_tuple(std::forward<Args>(args)...);
     }
-    l_json             = l_rpc_request;
-    nlohmann::json l_r = nlohmann::json::parse(call_server(l_json.dump()));
+    l_json = l_rpc_request;
+    std::string l_json_str{};
+    if constexpr (is_notice_type) {
+      call_server(l_json.dump(), is_notice_type);
+      return;
+    } else {
+      l_json_str = call_server(l_json.dump(), is_notice_type);
+    }
+
+    nlohmann::json l_r = nlohmann::json::parse(l_json_str);
     auto l_rpc_r       = l_r.template get<rpc_reply>();
     if (l_rpc_r.result.index() != rpc_reply::err_index) {
       if constexpr (std::is_same_v<void, Result_Type>)

@@ -8,7 +8,6 @@
 
 using boost::asio::ip::tcp;
 
-enum { max_length = 1024 };
 class rpc_client_test : public rpc_client {
  public:
   using rpc_client::rpc_client;
@@ -21,7 +20,7 @@ class rpc_client_test : public rpc_client {
   };
   std::string test_3(const std::string& in_arg,
                      const std::int32_t& in_int) {
-    return this->call_fun<false, std::string>("tset_3"s, in_arg, in_int);
+    return this->call_fun<false, std::string>("test_3"s, in_arg, in_int);
   };
   std::int32_t test_4() {
     return this->call_fun<false, std::int32_t>("test_4"s);

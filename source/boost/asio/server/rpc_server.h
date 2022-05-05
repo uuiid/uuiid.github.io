@@ -25,7 +25,7 @@ auto unpack_params(ParamSequence, std::index_sequence<Indices...>) -> std::tuple
 
 class rpc_server {
  public:
-  using call_fun = std::function<rpc_reply(const std::optional<nlohmann::json>&)>;
+  using call_fun = std::function<nlohmann::json(const std::optional<nlohmann::json>&)>;
 
  private:
   std::map<std::string,
@@ -47,7 +47,7 @@ class rpc_server {
    */
   template <typename Fun_T>
   void register_fun_t(const std::string& in_name, Fun_T&& in_fun_t) {
-    register_fun(in_name, [&](const std::optional<nlohmann::json>& in_arg) -> rpc_reply {
+    register_fun(in_name, [&](const std::optional<nlohmann::json>& in_arg) -> nlohmann::json {
       /// @brief 分解注册函数中的类型
       using Fun_Result                  = typename boost::callable_traits::return_type_t<Fun_T>;
       //      using Fun_Result = typename decltype(std::function<typename Fun_T>{})::result_type;
@@ -56,31 +56,25 @@ class rpc_server {
       //      constexpr auto Fun_Parameter_Size = boost::function_types::function_arity<decltype(&Fun_T::operator())>::value - 1;
 
       //      typedef typename boost::function_types::result_type<Fun_T>::type Fun_Result;
-      rpc_reply rpc_reply_{};
-      try {
-        nlohmann::json json_l{};
-        /// @brief 使用编译期测试函数参数, 节约调用时间
-        if constexpr (Fun_Parameter_Size == 0) {
-          /// @brief 测试函数返回值, 返回为 void 时, 不进行序列化
-          if constexpr (std::is_same_v<Fun_Result, void>) {
-            in_fun_t();
-          } else {
-            json_l = in_fun_t();
-          }
-
+      nlohmann::json json_l{};
+      /// @brief 使用编译期测试函数参数, 节约调用时间
+      if constexpr (Fun_Parameter_Size == 0) {
+        /// @brief 测试函数返回值, 返回为 void 时, 不进行序列化
+        if constexpr (std::is_same_v<Fun_Result, void>) {
+          in_fun_t();
         } else {
-          using Fun_Parameter_Decay = decltype(decay_types(std::declval<Fun_Parameter>()));
-          if constexpr (std::is_same_v<Fun_Result, void>) {
-            std::apply(in_fun_t, in_arg->template get<Fun_Parameter_Decay>());
-          } else {
-            json_l = std::apply(in_fun_t, in_arg->template get<Fun_Parameter_Decay>());
-          }
+          json_l = in_fun_t();
         }
-        rpc_reply_.result = json_l;
-      } catch (const rpc_error_exception& err) {
-        rpc_reply_.result = rpc_error{err};
+
+      } else {
+        using Fun_Parameter_Decay = decltype(decay_types(std::declval<Fun_Parameter>()));
+        if constexpr (std::is_same_v<Fun_Result, void>) {
+          std::apply(in_fun_t, in_arg->template get<Fun_Parameter_Decay>());
+        } else {
+          json_l = std::apply(in_fun_t, in_arg->template get<Fun_Parameter_Decay>());
+        }
       }
-      return rpc_reply_;
+      return json_l;
     });
   };
 
