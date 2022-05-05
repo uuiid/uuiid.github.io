@@ -4,42 +4,47 @@
 
 #include <boost/asio.hpp>
 #include <iostream>
+#include <client/rpc_client.h>
 
 using boost::asio::ip::tcp;
 
 enum { max_length = 1024 };
-int main(int argc, char* argv[])
-{
-    try
-    {
-        if (argc != 3)
-        {
-            std::cerr << "Usage: blocking_tcp_echo_client <host> <port>\n";
-            return 1;
-        }
+class rpc_client_test : public rpc_client {
+ public:
+  using rpc_client::rpc_client;
+  void test_1() {
+    this->call_fun<false, void>("test_1"s);
+  };
+  void test_2(const std::string& in_arg,
+              const std::int32_t& in_int) {
+    this->call_fun<false, void>("test_2"s, in_arg, in_int);
+  };
+  std::string test_3(const std::string& in_arg,
+                     const std::int32_t& in_int) {
+    return this->call_fun<false, std::string>("tset_3"s, in_arg, in_int);
+  };
+  std::int32_t test_4() {
+    return this->call_fun<false, std::int32_t>("test_4"s);
+  };
+};
 
-        boost::asio::io_context io_context;
-
-        tcp::socket s(io_context);
-        tcp::resolver resolver(io_context);
-        boost::asio::connect(s, resolver.resolve(argv[1], argv[2]));
-
-        std::cout << "Enter message: ";
-        char request[] = "test 111111111111111111111";
-        size_t request_length = std::strlen(request);
-        boost::asio::write(s, boost::asio::buffer(request, request_length));
-
-        char reply[max_length];
-        size_t reply_length = boost::asio::read(s,
-                                                boost::asio::buffer(reply, request_length));
-        std::cout << "Reply is: ";
-        std::cout.write(reply, reply_length);
-        std::cout << "\n";
+int main(int argc, char* argv[]) {
+  try {
+    if (argc != 3) {
+      std::cerr << "Usage: blocking_tcp_echo_client <host> <port>\n";
+      return 1;
     }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception: " << e.what() << "\n";
-    }
+    boost::asio::io_context io_context;
+    rpc_client_test l_c{io_context, argv[1], (std::uint16_t)std::atoi(argv[2])};
 
-    return 0;
+    l_c.test_1();
+    l_c.test_2("rpc_client_test 2"s, 2);
+    l_c.test_3("rpc_client_test 3"s, 3);
+    l_c.test_4();
+
+  } catch (std::exception& e) {
+    std::cerr << "Exception: " << e.what() << "\n";
+  }
+
+  return 0;
 }

@@ -29,7 +29,7 @@ class rpc_client {
 
   template <bool is_notice_type, typename Result_Type,
             typename... Args>
-  Result_Type call_fun(const std::string& in_name, Args... args) {
+  auto call_fun(const std::string& in_name, Args... args) {
     nlohmann::json l_json{};
 
     rpc_request l_rpc_request{};
@@ -51,6 +51,8 @@ class rpc_client {
       auto l_err_ = std::get<rpc_error>(l_rpc_r.result);
       l_err_.to_throw();
     }
+    if constexpr (!std::is_same_v<void, Result_Type>)
+      return Result_Type{};
   }
   void close() {
     return this->call_fun<true, void>("rpc.close"s);

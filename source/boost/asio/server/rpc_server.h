@@ -15,6 +15,7 @@
 #include <boost/function_types/function_arity.hpp>
 #include <boost/function_types/result_type.hpp>
 #include <boost/function_types/parameter_types.hpp>
+#include <boost/callable_traits.hpp>
 #include <boost/mpl/erase.hpp>
 
 namespace detail {
@@ -31,6 +32,9 @@ class rpc_server {
            call_fun>
       fun_list_{};
 
+  template <typename... Ts>
+  constexpr static auto decay_types(const std::tuple<Ts...>&) -> std::tuple<std::remove_cv_t<std::remove_reference_t<Ts>>...>;
+
  public:
   rpc_server();
   void register_fun(const std::string& in_name, const call_fun& in_call);
@@ -45,11 +49,11 @@ class rpc_server {
   void register_fun_t(const std::string& in_name, Fun_T&& in_fun_t) {
     register_fun(in_name, [&](const std::optional<nlohmann::json>& in_arg) -> rpc_reply {
       /// @brief 分解注册函数中的类型
-      using Fun_Result                  = typename boost::function_types::result_type<decltype(&Fun_T::operator())>::type;
+      using Fun_Result                  = typename boost::callable_traits::return_type_t<Fun_T>;
       //      using Fun_Result = typename decltype(std::function<typename Fun_T>{})::result_type;
-      using Fun_Parameter_All           = typename boost::function_types::parameter_types<decltype(&Fun_T::operator())>::type;
-      using Fun_Parameter               = typename boost::mpl::erase<Fun_Parameter_All, boost::mpl::begin<Fun_Parameter_All>>;
-      constexpr auto Fun_Parameter_Size = boost::function_types::function_arity<decltype(&Fun_T::operator())>::value - 1;
+      using Fun_Parameter               = typename boost::callable_traits::args_t<Fun_T>;
+      constexpr auto Fun_Parameter_Size = std::tuple_size_v<Fun_Parameter>;
+      //      constexpr auto Fun_Parameter_Size = boost::function_types::function_arity<decltype(&Fun_T::operator())>::value - 1;
 
       //      typedef typename boost::function_types::result_type<Fun_T>::type Fun_Result;
       rpc_reply rpc_reply_{};
@@ -65,15 +69,11 @@ class rpc_server {
           }
 
         } else {
-          /// @brief 将boost mpl vector 转换为元组后调用
-          using Fun_Parameter_tuple =
-              decltype(detail::unpack_params(
-                  std::declval<Fun_Parameter>(),
-                  std::make_index_sequence<Fun_Parameter_Size>()));
+          using Fun_Parameter_Decay = decltype(decay_types(std::declval<Fun_Parameter>()));
           if constexpr (std::is_same_v<Fun_Result, void>) {
-            std::apply(in_fun_t, *in_arg->template get<Fun_Parameter_tuple>());
+            std::apply(in_fun_t, in_arg->template get<Fun_Parameter_Decay>());
           } else {
-            json_l = std::apply(in_fun_t, *in_arg->template get<Fun_Parameter_tuple>());
+            json_l = std::apply(in_fun_t, in_arg->template get<Fun_Parameter_Decay>());
           }
         }
         rpc_reply_.result = json_l;
