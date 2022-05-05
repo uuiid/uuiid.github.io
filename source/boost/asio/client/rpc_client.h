@@ -18,10 +18,11 @@ class rpc_client {
   rpc_client(boost::asio::io_context& in_context,
              const std::string& in_host,
              std::uint16_t in_post)
-      : client_socket(in_context,
-                      boost::asio::ip::tcp::endpoint{
-                          boost::asio::ip::address::from_string(in_host),
-                          in_post}){};
+      : client_socket(in_context) {
+    client_socket.connect(boost::asio::ip::tcp::endpoint{
+        boost::asio::ip::address::from_string(in_host),
+        in_post});
+  };
   ~rpc_client();
 
  protected:
