@@ -34,12 +34,16 @@ class rpc_server {
 
   template <typename... Ts>
   constexpr static auto decay_types(const std::tuple<Ts...>&)
-      -> std::tuple<std::remove_cv_t<std::remove_reference_t<Ts>>...>;
+      -> std::tuple<std::remove_cv_t<std::remove_reference_t<Ts>>...>{};
 
  public:
   rpc_server();
+
+  virtual void init_register() = 0;
+
   void register_fun(const std::string& in_name, const call_fun& in_call);
 
+ protected:
   /**
    * 模板注册方法
    * @tparam Fun_T 传入的函数模板
@@ -79,6 +83,7 @@ class rpc_server {
     });
   };
 
+ public:
   rpc_reply operator()(const std::string& in_name,
                        const std::optional<nlohmann::json>& in_parm) const;
 };

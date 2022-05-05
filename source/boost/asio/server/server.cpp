@@ -31,6 +31,10 @@ void server::do_accept() {
         this->do_accept();
       });
 }
+void server::set_rpc_server(const std::shared_ptr<rpc_server> &in_server) {
+  in_server->init_register();
+  rpc_server_ptr_ = in_server;
+}
 
 session::session(boost::asio::ip::tcp::socket in_socket)
     : socket_(std::move(in_socket)),
