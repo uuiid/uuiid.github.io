@@ -101,7 +101,7 @@ class rpc_server_ref {
 
  public:
   explicit rpc_server_ref(std::weak_ptr<rpc_server> in_server,
-                          std::function<void()> in_close_fun);
+                          const std::function<void()>& in_close_fun);
   rpc_reply operator()(const std::string& in_name,
                        const std::optional<nlohmann::json>& in_parm) const;
 };

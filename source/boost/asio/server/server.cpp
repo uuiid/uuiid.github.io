@@ -50,19 +50,7 @@ void session::do_read() {
   boost::asio::async_read(
       socket_,
       boost::asio::buffer(data_),
-      [&](
-          // 最新 async_read_some 操作的结果。
-          const boost ::system ::error_code &error,
-          // 到目前为止传输的字节数
-          std ::size_t bytes_transferred) -> std::size_t {
-        if (!error) {
-          if (nlohmann::json::accept(data_))
-            return 0;
-          else
-            return data_.size() - bytes_transferred;
-        }
-        return 0;
-      },
+      "\r\n",
       [self = shared_from_this(), this](boost::system::error_code in_err,
                                         std::size_t in_len) {
         if (!in_err) {
@@ -74,18 +62,6 @@ void session::do_read() {
           socket_.close();
         }
       });
-  //  socket_.async_read_some(
-  //      boost::asio::buffer(data_),
-  //      [self = shared_from_this(), this](boost::system::error_code in_err,
-  //                                        std::size_t in_len) {
-  //        if (!in_err) {
-  //          std::cout << "read " << data_.substr(0, in_len) << std::endl;
-  //          this->do_write();
-  //        } else {
-  //          std::cout << "read err " << in_err.message() << std::endl;
-  //          socket_.close();
-  //        }
-  //      });
 }
 
 void session::do_write() {
@@ -102,18 +78,6 @@ void session::do_write() {
           }
         });
   }
-  //    socket_.async_write_some(
-  //            boost::asio::buffer(msg_),
-  //            [self = shared_from_this(), this, in_len](boost::system::error_code in_err, std::size_t in_len_) {
-  //
-  //                if (!in_err) {
-  //                    std::cout << "write " << data_.substr(0, in_len) << std::endl;
-  //                    this->do_read();
-  //                } else {
-  //                    std::cout << "write err " << in_err.message() << std::endl;
-  //                }
-  //                socket_.close();
-  //            });
 }
 void session::stop() {
   socket_.close();
