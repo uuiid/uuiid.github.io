@@ -52,6 +52,10 @@ class rpc_error {
       : code(in_code),
         message(std::move(in_message)),
         data(std::move(in_data)) {}
+  template <typename Error>
+  explicit rpc_error(const Error& in_err){
+
+  };
   std::int64_t code{};
   std::string message{};
   std::string data{};

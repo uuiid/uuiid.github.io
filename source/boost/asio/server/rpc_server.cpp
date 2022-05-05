@@ -29,6 +29,13 @@ rpc_server_ref::rpc_server_ref(std::weak_ptr<rpc_server> in_server,
     in_close_fun();
     return {};
   });
+  in_server.lock()->register_fun_t("sda"s, []() -> std::int64_t {
+
+    return {};
+
+  });
+
+
 }
 rpc_reply rpc_server_ref::operator()(const std::string& in_name, const std::optional<nlohmann::json>& in_parm) const {
   rpc_reply reply{};

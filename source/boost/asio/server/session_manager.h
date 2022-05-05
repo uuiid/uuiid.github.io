@@ -16,7 +16,7 @@ class session_manager {
 
   template <typename Session, typename... Args>
   void start(const std::shared_ptr<Session>& in_session, Args... args) {
-    session_list_.template emplace(in_session);
+    session_list_.emplace(in_session);
     in_session->start(std::forward<Args>(args)...);
   };
   void stop(const std::shared_ptr<session>& in_session);
