@@ -22,14 +22,11 @@ rpc_server::rpc_server()
     : fun_list_() {
 }
 rpc_server_ref::rpc_server_ref(std::weak_ptr<rpc_server> in_server,
-                               std::function<void()> in_close_fun)
+                               const std::function<void()>& in_close_fun)
     : server(std::move(in_server)),
       fun_list_() {
   fun_list_.emplace("rpc.close", [=](const std::optional<nlohmann::json>&) -> rpc_reply {
     in_close_fun();
-    return {};
-  });
-  in_server.lock()->register_fun_t("sda"s, []() -> std::int64_t {
     return {};
   });
 }
