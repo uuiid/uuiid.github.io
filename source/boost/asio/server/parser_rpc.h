@@ -29,7 +29,8 @@ class rpc_request {
   friend void to_json(nlohmann::json& nlohmann_json_j, const rpc_request& nlohmann_json_t) {
     nlohmann_json_j["jsonrpc"] = jsonrpc_version;
     nlohmann_json_j["method"]  = nlohmann_json_t.method_;
-    nlohmann_json_j["id"]      = (std::uint64_t)identifier::get().id();
+    if (!nlohmann_json_t.is_notice)
+      nlohmann_json_j["id"] = (std::uint64_t)identifier::get().id();
     if (nlohmann_json_t.params_)
       nlohmann_json_j["params"] = *nlohmann_json_t.params_;
   }

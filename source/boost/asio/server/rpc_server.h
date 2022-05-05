@@ -77,29 +77,12 @@ class rpc_server {
           }
         }
         rpc_reply_.result = json_l;
-      } catch (const std::runtime_error& err) {
+      } catch (const rpc_error_exception& err) {
         rpc_reply_.result = rpc_error{err};
       }
       return rpc_reply_;
     });
   };
-
-  //  template <typename Fun_Result, typename... Fun_Parameter>
-  //  void register_fun_t(const std::string& in_name,
-  //                      const std::function<Fun_Result(Fun_Parameter...)>& in_fun_t) {
-  //    register_fun(in_name, [&](const std::optional<nlohmann::json>& in_arg) -> rpc_reply {
-  //      //      using Fun_Result = typename boost::function_types::result_type<typename Fun_T>::type;
-  //      //      using Fun_Result = typename decltype(std::function<typename Fun_T>{})::result_type;
-  //      //      using Fun_Parameter = typename boost::function_types::parameter_types<Fun_T>::type;
-  //      //      typedef typename boost::function_types::result_type<Fun_T>::type Fun_Result;
-  //      rpc_reply rpc_reply_{};
-  //      try {
-  //        in_fun_t();
-  //      } catch (const std::runtime_error& err) {
-  //      }
-  //      return rpc_reply_;
-  //    });
-  //  };
 
   rpc_reply operator()(const std::string& in_name,
                        const std::optional<nlohmann::json>& in_parm) const;

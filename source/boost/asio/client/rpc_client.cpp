@@ -9,3 +9,6 @@ std::string rpc_client::call_server(const std::string& in_string) {
   boost::asio::read(client_socket, boost::asio::dynamic_buffer(l_r));
   return l_r;
 }
+rpc_client::~rpc_client() {
+  close();
+}

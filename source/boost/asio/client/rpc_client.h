@@ -10,30 +10,9 @@
 #include <server/exception/json_rpc_error.h>
 #include <server/parser_rpc.h>
 #include <type_traits>
-class fun_stub {
- public:
-  constexpr static std::string_view method_{"s"};
-  using Args   = std::tuple<const std::string&, const std::string&>;
-  using Result = std::string;
-};
-namespace detail {
 
-template <typename Type_, typename = void>
-struct is_notice_fun : public std::false_type {};
-
-template <typename Type_>
-struct is_notice_fun<Type_, std::void_t<decltype(Type_::is_notice)>> : public std::true_type {};
-}  // namespace detail
 class rpc_client {
   boost::asio::ip::tcp::socket client_socket;
-
-  class close_t {
-   public:
-    constexpr static const std::string_view method_{"rpc.close"};
-    constexpr static const bool is_notice{false};
-    using Args   = std::tuple<>;
-    using Result = void;
-  };
 
  public:
   rpc_client(boost::asio::io_context& in_context,
@@ -43,59 +22,37 @@ class rpc_client {
                       boost::asio::ip::tcp::endpoint{
                           boost::asio::ip::address::from_string(in_host),
                           in_post}){};
+  ~rpc_client();
 
  protected:
   std::string call_server(const std::string& in_string);
 
-  template <typename FunType,
-            std::enable_if_t<
-                std::is_same_v<void,
-                               typename FunType::Result>,
-                bool> = true>
-  auto call_fun(typename FunType::Args args = {}) {
+  template <bool is_notice_type, typename Result_Type,
+            typename... Args>
+  Result_Type call_fun(const std::string& in_name, Args... args) {
     nlohmann::json l_json{};
 
     rpc_request l_rpc_request{};
-    l_rpc_request.method_ = std::string{FunType::method_};
-    if constexpr (std::tuple_size<typename FunType::Args>::value > 0) {
-      l_rpc_request.params_ = std::apply(FunType::to_json, args);
-    }
-    l_json             = l_rpc_request;
-    nlohmann::json l_r = nlohmann::json::parse(call_server(l_json.dump()));
-    auto l_rpc_r       = l_r.template get<rpc_reply>();
-    if (l_rpc_r.result.index() == rpc_reply::err_index) {
-      auto l_err_ = std::get<rpc_error>(l_rpc_r.result);
-      l_err_.to_throw();
-    }
-  }
+    l_rpc_request.method_   = in_name;
+    l_rpc_request.is_notice = is_notice_type;
 
-  template <typename FunType,
-            std::enable_if_t<
-                !std::is_same_v<void,
-                                typename FunType::Result>,
-                bool> = true>
-  auto call_fun(typename FunType::Args args = {}) -> typename FunType::Result {
-    nlohmann::json l_json{};
-
-    rpc_request l_rpc_request{};
-    l_rpc_request.method_ = std::string{FunType::method_};
-    if constexpr (std::tuple_size<typename FunType::Args>::value > 0) {
-      l_rpc_request.params_ = std::apply(FunType::to_json, args);
+    if constexpr (sizeof...(args) > 0) {
+      l_rpc_request.params_ = std::make_tuple(std::forward<Args>(args)...);
     }
     l_json             = l_rpc_request;
     nlohmann::json l_r = nlohmann::json::parse(call_server(l_json.dump()));
     auto l_rpc_r       = l_r.template get<rpc_reply>();
     if (l_rpc_r.result.index() != rpc_reply::err_index) {
-      if constexpr (std::is_same_v<void, typename FunType::Result>)
-        return void();
+      if constexpr (std::is_same_v<void, Result_Type>)
+        return;
       else
-        return std::get<nlohmann::json>(l_rpc_r.result).template get<typename FunType::Result>();
+        return std::get<nlohmann::json>(l_rpc_r.result).template get<Result_Type>();
     } else {
       auto l_err_ = std::get<rpc_error>(l_rpc_r.result);
       l_err_.to_throw();
     }
   }
   void close() {
-    return this->call_fun<close_t>();
+    return this->call_fun<true, void>("rpc.close"s);
   }
 };

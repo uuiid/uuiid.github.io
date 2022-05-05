@@ -14,7 +14,7 @@ rpc_reply rpc_server::operator()(const std::string& in_name,
   if (fun_list_.find(in_name) != fun_list_.end()) {
     reply.result = fun_list_.at(in_name)(in_parm);
   } else {
-    reply.result = method_not_found;
+    throw method_not_found_exception{};
   }
   return reply;
 }
@@ -30,12 +30,8 @@ rpc_server_ref::rpc_server_ref(std::weak_ptr<rpc_server> in_server,
     return {};
   });
   in_server.lock()->register_fun_t("sda"s, []() -> std::int64_t {
-
     return {};
-
   });
-
-
 }
 rpc_reply rpc_server_ref::operator()(const std::string& in_name, const std::optional<nlohmann::json>& in_parm) const {
   rpc_reply reply{};
