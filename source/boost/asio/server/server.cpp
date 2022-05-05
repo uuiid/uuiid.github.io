@@ -83,5 +83,6 @@ void session::do_write() {
   }
 }
 void session::stop() {
+  std::cout << "close rpc " << socket_.remote_endpoint() << std::endl;
   socket_.close();
 }

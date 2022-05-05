@@ -30,7 +30,7 @@ class rpc_request {
     nlohmann_json_j["jsonrpc"] = jsonrpc_version;
     nlohmann_json_j["method"]  = nlohmann_json_t.method_;
     if (!nlohmann_json_t.is_notice)
-      nlohmann_json_j["id"] = (std::uint64_t)identifier::get().id();
+      nlohmann_json_j["id"] = identifier::get().id();
     if (nlohmann_json_t.params_)
       nlohmann_json_j["params"] = *nlohmann_json_t.params_;
   }

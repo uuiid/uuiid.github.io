@@ -31,7 +31,6 @@ class session : public std::enable_shared_from_this<session> {
 
   void start(std::shared_ptr<rpc_server_ref> in_server);
   void stop();
-
  private:
   void do_read();
 
