@@ -10,7 +10,7 @@ target_include_directories(uuid_boost_asio_server_test PUBLIC ${CMAKE_CURRENT_LI
 add_executable(uuid_boost_asio_client_test
         main_client.cpp
         ../../win_exe.rc
-        ../../uuiid.manifest)
+        ../../uuiid.manifest server/json_rpc_macro.h)
 
 add_subdirectory(server)
 add_subdirectory(client)
