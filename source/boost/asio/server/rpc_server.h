@@ -22,7 +22,14 @@ namespace detail {
 template <class ParamSequence, std::size_t... Indices>
 auto unpack_params(ParamSequence, std::index_sequence<Indices...>) -> std::tuple<boost::mpl::at_c<ParamSequence, Indices>...>;
 }
-
+template <typename T, typename = void>
+class fun_traits {
+ public:
+  constexpr const static bool is_notice{false};
+  constexpr const static std::string_view name{"fun"};
+  using return_type = void;
+  using arg_type    = void;
+};
 class rpc_server {
  public:
   using call_fun = std::function<nlohmann::json(const std::optional<nlohmann::json>&)>;

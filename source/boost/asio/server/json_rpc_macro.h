@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <boost/preprocessor.hpp>
 #define DOODLE_RPC_GET_FUN_NAME_STR(list) BOOST_PP_STRINGIZE(BOOST_PP_TUPLE_ELEM(1, list))
 #define DOODLE_RPC_GET_FUN_NAME(list) BOOST_PP_TUPLE_ELEM(1, list)
 #define DOODLE_RPC_GET_FUN_RETURN(list) BOOST_PP_TUPLE_ELEM(0, list)

@@ -30,8 +30,6 @@ class rpc_server_name : public rpc_server {
       std::cout << "call test_4" << std::endl;
       return 1;
     });
-    //    register_fun_t("t"s, &rpc_server_name::test_bind);
-    register_fun_t("test_5", std::bind(&rpc_server_name::test_bind, this, std::placeholders::_1));
   }
 
   virtual std::string test_bind(const std::string& in_str) = 0;
@@ -48,12 +46,21 @@ class rpc_server_name : public rpc_server {
 
 #define DOODLE_RPC_CALL_FUN(r, data, elem)                                               \
   register_fun_t(DOODLE_RPC_GET_FUN_NAME_STR(elem),                                      \
-                 [this](DOODLE_RPC_TO_ARG(elem)) -> DOODLE_RPC_GET_FUN_RETURN(elem) {        \
+                 [this](DOODLE_RPC_TO_ARG(elem)) -> DOODLE_RPC_GET_FUN_RETURN(elem) {    \
                    return this->DOODLE_RPC_GET_FUN_NAME(elem)(DOODLE_RPC_TO_ARG2(elem)); \
                  });
 
 #define DOODLE_RPC_DECLARATION(rpc_server_name, ...)                                            \
   class rpc_server_name : public rpc_server {                                                   \
+   private:                                                                                     \
+    template <typename Fun_T>                                                                   \
+    void _register_fun_t_() {                                                                   \
+      using fun_trait = typename fun_traits<Fun_T>;                                             \
+      register_fun_t(std::string{fun_trait::name}, [](typename fun_trait::arg_type in_arg) {    \
+        return;                                                                                 \
+      });                                                                                       \
+    };                                                                                          \
+                                                                                                \
    public:                                                                                      \
     using rpc_server::rpc_server;                                                               \
     void init_register() override {                                                             \

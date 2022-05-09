@@ -5,6 +5,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <client/rpc_client.h>
+#include <server/json_rpc_macro.h>
 
 using boost::asio::ip::tcp;
 
@@ -26,6 +27,30 @@ class rpc_client_test : public rpc_client {
     return this->call_fun<false, std::int32_t>("test_4"s);
   };
 };
+
+class rpc_client_sub : public rpc_client {
+ public:
+  using rpc_client::rpc_client;
+};
+
+#define DOODLE_RPC_FUN_DECLARATION_SUB(r, data, elem)       \
+  DOODLE_RPC_GET_FUN_RETURN(elem)                           \
+  DOODLE_RPC_GET_FUN_NAME(elem)                             \
+  (DOODLE_RPC_TO_ARG(elem)) {                               \
+    return this->call_fun<false,                            \
+                          DOODLE_RPC_GET_FUN_RETURN(elem)>( \
+        DOODLE_RPC_GET_FUN_NAME_STR(elem),                  \
+        DOODLE_RPC_TO_ARG2(elem));                          \
+  }
+
+#define DOODLE_RPC_DECLARATION_SUB(rpc_server_name, ...)                                            \
+  class rpc_server_name : public rpc_client {                                                       \
+   public:                                                                                          \
+    using rpc_client::rpc_client;                                                                   \
+                                                                                                    \
+    BOOST_PP_SEQ_FOR_EACH(DOODLE_RPC_FUN_DECLARATION_SUB, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)) \
+  };
+
 
 int main(int argc, char* argv[]) {
   try {
