@@ -16,6 +16,9 @@ find_package(Sqlpp11 CONFIG REQUIRED
         sqlite3)
 
 find_package(fmt CONFIG REQUIRED)
+find_package(Simbody CONFIG REQUIRED)
+
 set(UUIID_MANIFEST ${CMAKE_CURRENT_LIST_DIR}/uuid.manifest ${CMAKE_CURRENT_LIST_DIR}/win_exe.rc)
 add_subdirectory(boost)
 add_subdirectory(cpp)
+add_subdirectory(sim_body)
