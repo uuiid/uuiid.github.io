@@ -2,12 +2,13 @@
 
 ## post 返回值
 
-- 可以使用 std::packaged_task 提交任务来进行返回值的提取
+- 可以使用 `std::packaged_task` 提交任务来进行返回值的提取
 - 使用 `typename std::invoke_result<F, Args...>::type` 推测返回值类型;
 
 ## 执行器(executor)
 
 - asio 中,执行器负责指定函数在什么位置以及线程进行执行
+- 
 
 ## 示例 (asio json rpc 例子)
 
